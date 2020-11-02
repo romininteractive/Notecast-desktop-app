@@ -1,0 +1,11 @@
+{
+    "dest": "build/",
+    "icon": "assets/icons/1024x1024.png",
+    "categories": [
+        "Utility"
+    ],
+    "lintianOverrides": [
+        "changelog-file-missing-in-native-package"
+    ],
+    "maintainer": "Romin Interactive <support@romininteractive.com>"
+}
