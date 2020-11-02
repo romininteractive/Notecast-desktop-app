@@ -9,4 +9,12 @@ window.addEventListener('DOMContentLoaded', () => {
   for (const type of ['chrome', 'node', 'electron']) {
     replaceText(`${type}-version`, process.versions[type])
   }
+
+  const { ipcRenderer } = require('electron');
+  console.log('Preload.js loaded.');
+
+  ipcRenderer.send('check_for_update');
+  ipcRenderer.on('log', (event, arg) => {
+    console.log(arg);
+  });
 })

@@ -2059,6 +2059,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -48130,11 +48133,14 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "text-right", staticStyle: { "font-size": "1.5vw" } },
-    [_c("b", [_vm._v(_vm._s(_vm.time))])]
-  )
+  return _c("div", { staticClass: "text-right" }, [
+    _c("span", { staticClass: "text-muted text-small" }, [_vm._v("v1.0.9")]),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticStyle: { "font-size": "1.5vw", color: "red" } }, [
+      _c("b", [_vm._v(_vm._s(_vm.time))])
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -60457,9 +60463,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   key: _pkey,
   cluster: 'ap2',
   encrypted: true
-}); // window.apiBaseUrl = 'http://bjrr.in/api';
-
-window.apiBaseUrl = 'http://localhost:8000/api'; // window.apiBaseUrl = 'http://dax.ngrok.io/api';
+});
+window.apiBaseUrl = 'http://bjrr.in/api'; // window.apiBaseUrl = 'http://localhost:8000/api';
+// window.apiBaseUrl = 'http://dax.ngrok.io/api';
 
 var defaultSettings = Object.assign({
   apiUrl: window.apiBaseUrl

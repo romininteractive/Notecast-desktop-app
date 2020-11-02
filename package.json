@@ -1,12 +1,12 @@
 {
   "name": "notecast",
-  "version": "1.0.2",
+  "version": "1.0.9",
   "description": "A minimal application to view the screen",
   "main": "main.js",
   "scripts": {
     "start": "./copy_assets.sh && electron .",
-    "build": "./copy_assets.sh && electron-builder --l --armv7l --x64 --publish never",
-    "deploy": "./copy_assets.sh && electron-builder --publish always"
+    "build": "./copy_assets.sh && electron-builder --l --armv7l --x64",
+    "deploy": "./copy_assets.sh && electron-builder --l --armv7l --x64 --publish always"
   },
   "keywords": [
     "Electron",
@@ -27,16 +27,20 @@
       "maintainer": "Romin Interactive <support@romininteractive.com>",
       "category": "Utility",
       "target": [
-        "deb"
+        "AppImage"
+      ],
+      "publish": [
+        "github"
       ]
     },
     "icon": "./assets/images/icon.png"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/romininteractive/Notecast-desktop-app.git"
+    "type": "git",
+    "url": "https://github.com/romininteractive/Notecast-desktop-app.git"
   },
   "dependencies": {
+    "electron-log": "^4.3.0",
     "electron-updater": "^4.3.5"
   }
 }
