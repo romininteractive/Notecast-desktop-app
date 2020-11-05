@@ -48134,10 +48134,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "text-right" }, [
-    _c("span", { staticClass: "text-muted text-small" }, [_vm._v("v1.0.9")]),
+    _c("span", { staticClass: "text-muted text-small" }, [_vm._v("v1.0.10")]),
     _c("br"),
     _vm._v(" "),
-    _c("div", { staticStyle: { "font-size": "1.5vw", color: "red" } }, [
+    _c("div", { staticStyle: { "font-size": "1.5vw", color: "green" } }, [
       _c("b", [_vm._v(_vm._s(_vm.time))])
     ])
   ])
