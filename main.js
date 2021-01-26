@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, ipcMain } = require('electron')
+const {app, BrowserWindow, ipcMain, screen } = require('electron')
 const path = require('path')
 
 const { autoUpdater } = require('electron-updater');
@@ -27,7 +27,7 @@ function createWindow () {
   mainWindow.loadFile('index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   autoUpdater.checkForUpdates();
 }
@@ -82,3 +82,10 @@ autoUpdater.on('download-progress', (progressObj) => {
 autoUpdater.on('update-downloaded', (info) => {
   autoUpdater.quitAndInstall();
 });
+
+ipcMain.on('request-info', (e, data) => {
+  console.log('main.js: request-info');
+  e.sender.send('request-info-reply', {
+    display: screen.getPrimaryDisplay(),
+  });
+})

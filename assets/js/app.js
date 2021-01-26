@@ -2011,13 +2011,11 @@ __webpack_require__.r(__webpack_exports__);
         _this.updateScreen(res.data);
       });
     });
+    channel.listen('.pullinfo', function (data) {
+      console.log(data);
 
-    if (this.device !== undefined && this.device !== null) {
-      axios.put(this.settings.apiUrl + '/screens/' + this.screen_id + '/devices/' + this.device.id, {}).then(function (res) {
-        window.localStorage.setItem('device', JSON.stringify(res.data.device));
-      });
-    }
-
+      _this.hitDeviceAPI();
+    });
     this.registerKeyBindings();
   },
   methods: {
@@ -2035,6 +2033,25 @@ __webpack_require__.r(__webpack_exports__);
     updateScreen: function updateScreen(screen) {
       this.screen = screen;
       window.localStorage.setItem('screen_' + this.screen_id, JSON.stringify(screen));
+      this.hitDeviceAPI();
+    },
+    hitDeviceAPI: function hitDeviceAPI() {
+      console.log('Hitting device API');
+      var information = {};
+      window.dispatchEvent(new CustomEvent('request-info', {
+        detail: {
+          handler: function handler(info) {
+            information = info;
+          }
+        }
+      }));
+      console.log(information);
+
+      if (this.device !== undefined && this.device !== null) {
+        axios.put(this.settings.apiUrl + '/screens/' + this.screen_id + '/devices/' + this.device.id, information).then(function (res) {
+          window.localStorage.setItem('device', JSON.stringify(res.data.device));
+        });
+      }
     },
     nameChanged: function nameChanged() {
       this.deviceName = window.localStorage.getItem('deviceName');
@@ -48134,10 +48151,10 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "text-right" }, [
-    _c("span", { staticClass: "text-muted text-small" }, [_vm._v("v1.0.10")]),
+    _c("span", { staticClass: "text-muted text-small" }, [_vm._v("v1.1.1")]),
     _c("br"),
     _vm._v(" "),
-    _c("div", { staticStyle: { "font-size": "1.5vw", color: "green" } }, [
+    _c("div", { staticStyle: { "font-size": "2.5vw", color: "purple" } }, [
       _c("b", [_vm._v(_vm._s(_vm.time))])
     ])
   ])
@@ -60456,17 +60473,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js"); // let _pkey = process.env.MIX_PUSHER_APP_KEY;
+// let _pkey = 'b3a1c22e5c7b9f47b2e2'
 
-var _pkey = 'b3a1c22e5c7b9f47b2e2';
+var _pkey = 'b70ff0aad00eb52e8a33'; // window.apiBaseUrl = 'http://bjrr.in/api';
+
+window.apiBaseUrl = 'http://localhost:8000/api'; // window.apiBaseUrl = 'http://dax.ngrok.io/api';
+
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: _pkey,
   cluster: 'ap2',
   encrypted: true
 });
-window.apiBaseUrl = 'http://bjrr.in/api'; // window.apiBaseUrl = 'http://localhost:8000/api';
-// window.apiBaseUrl = 'http://dax.ngrok.io/api';
-
 var defaultSettings = Object.assign({
   apiUrl: window.apiBaseUrl
 }, JSON.parse(window.localStorage.getItem('settings') || '{}'));

@@ -1,6 +1,6 @@
 {
   "name": "notecast",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "A minimal application to view the screen",
   "main": "main.js",
   "scripts": {
@@ -23,6 +23,7 @@
   },
   "build": {
     "appId": "notecast",
+    "artifactName": "notecast-${arch}.${ext}",
     "linux": {
       "maintainer": "Romin Interactive <support@romininteractive.com>",
       "category": "Utility",
