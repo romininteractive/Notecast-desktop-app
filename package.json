@@ -1,6 +1,6 @@
 {
   "name": "notecast",
-  "version": "1.2.1",
+  "version": "2.0.0",
   "description": "A minimal application to view the screen",
   "main": "main.js",
   "scripts": {
@@ -18,8 +18,8 @@
   "author": "Romin Interactive",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^8.1.0",
-    "electron-builder": "latest"
+    "electron": "^43.8.6",
+    "electron-builder": "^26.18.0"
   },
   "build": {
     "appId": "notecast",
@@ -41,7 +41,7 @@
     "url": "https://github.com/romininteractive/Notecast-desktop-app.git"
   },
   "dependencies": {
-    "electron-log": "^4.3.0",
-    "electron-updater": "^4.3.5"
+    "electron-log": "^5.4.3",
+    "electron-updater": "^6.8.11"
   }
 }
