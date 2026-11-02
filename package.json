@@ -31,7 +31,10 @@
         "AppImage"
       ],
       "publish": [
-        "github"
+        {
+          "provider": "github",
+          "releaseType": "release"
+        }
       ]
     },
     "icon": "./assets/images/icon.png"
