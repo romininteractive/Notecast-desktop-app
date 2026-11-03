@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, ipcMain, screen } = require('electron')
+const {app, BrowserWindow, ipcMain, screen, net } = require('electron')
 const path = require('path')
 
 const { autoUpdater } = require('electron-updater');
@@ -8,6 +8,13 @@ autoUpdater.logger = log;
 autoUpdater.logger.transports.console.level = 'debug';
 autoUpdater.logger.transports.file.level = 'debug';
 log.info('App starting...');
+
+// Never let a rejected promise take down the main process. Since Electron 43
+// (Node 22) an unhandled rejection is fatal, and Electron then shows an
+// "Uncaught Exception" dialog on top of the kiosk screen.
+process.on('unhandledRejection', (reason) => {
+  log.warn('Unhandled rejection:', reason);
+});
 
 function createWindow () {
   // Create the browser window.
@@ -29,7 +36,41 @@ function createWindow () {
   // Open the DevTools.
 //  mainWindow.webContents.openDevTools();
 
-  autoUpdater.checkForUpdates();
+  checkForUpdates();
+}
+
+const UPDATE_RETRY_DELAY = 5 * 60 * 1000;
+const UPDATE_MAX_RETRIES = 3;
+let updateRetries = 0;
+
+function retryUpdateCheck (reason) {
+  log.warn('Update check skipped or failed: ' + reason);
+  if (updateRetries >= UPDATE_MAX_RETRIES) return;
+  updateRetries++;
+  setTimeout(checkForUpdates, UPDATE_RETRY_DELAY);
+}
+
+// checkForUpdates() rejects on transient network failures (net::ERR_NETWORK_CHANGED,
+// offline, DNS) because electron-updater talks through Electron's net stack.
+function checkForUpdates () {
+  if (!net.isOnline()) {
+    retryUpdateCheck('no network connection');
+    return;
+  }
+  autoUpdater.checkForUpdates()
+    .then((result) => {
+      updateRetries = 0;
+      // autoDownload is on, so the download starts by itself; consume its
+      // promise or a mid-download network drop becomes an unhandled rejection.
+      if (result && result.downloadPromise) {
+        result.downloadPromise.catch((err) => {
+          log.warn('Update download failed: ' + (err && err.message ? err.message : err));
+        });
+      }
+    })
+    .catch((err) => {
+      retryUpdateCheck(err && err.message ? err.message : err);
+    });
 }
 
 function startApp(){
